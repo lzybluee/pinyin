@@ -2,12 +2,15 @@ import os
 import random
 import re
 import time
+from datetime import datetime
 
 import pyttsx3
 from pygame import mixer
 
+INTERVAL = 2
 NUM = 20
-LOOP = 3
+LOOP = 2
+FOLDER = 'vowel'
 
 tone_table = {
     'a': 'āáǎà',
@@ -49,19 +52,25 @@ def convert(name):
 
 
 def main():
+    if not os.path.exists('log'):
+        os.mkdir('log')
+
     mixer.init()
 
-    files = random.sample(os.listdir('audio'), NUM)
+    files = random.sample(os.listdir(FOLDER), NUM)
 
-    for i, file in enumerate(files):
-        print(f'{i + 1}: {convert(file[:file.index('.')])}')
+    with open(os.path.join('log', datetime.now().strftime('%Y-%m-%d %H-%M-%S') + '.txt'), 'w') as log:
+        for i, file in enumerate(files):
+            text = f'{i + 1}: {convert(file[:file.index('.')])}'
+            print(text)
+            log.write(text + '\n')
 
     for n in range(LOOP):
         for i in range(NUM):
             say(str(i + 1))
-            play(os.path.join('audio', files[i]))
-            time.sleep(1)
-        time.sleep(1)
+            play(os.path.join(FOLDER, files[i]))
+            time.sleep(INTERVAL)
+        time.sleep(INTERVAL)
 
 
 if __name__ == '__main__':

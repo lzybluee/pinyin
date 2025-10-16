@@ -74,11 +74,11 @@ def main():
     if not os.path.exists('log'):
         os.mkdir('log')
 
-    mixer.init()
-
-    play('ready.mp3')
-
     files = random.sample(filter_file(os.listdir(FOLDER)), NUM)
+
+    mixer.init()
+    play('ready.mp3')
+    time.sleep(2)
 
     with open(os.path.join('log', datetime.now().strftime('%Y-%m-%d %H-%M-%S') + '.txt'), 'w') as log:
         for i, file in enumerate(files):

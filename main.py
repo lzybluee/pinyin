@@ -7,10 +7,17 @@ from datetime import datetime
 import pyttsx3
 from pygame import mixer
 
-INTERVAL = 2
+INTERVAL = 4
 NUM = 20
 LOOP = 2
-FOLDER = 'vowel'
+FOLDER = 'audio'
+FILTER = [  # 'a', 'e', 'i', 'o', 'u', 'ü',
+    'ba', 'bo', 'bi', 'bu', 'pa', 'po', 'pi', 'pu', 'ma', 'mo', 'mi', 'mu', 'fa', 'fo', 'fu',
+    'da', 'de', 'di', 'du', 'ta', 'te', 'ti', 'tu', 'na', 'ne', 'ni', 'nu', 'nü', 'la', 'le', 'li', 'lu', 'lü',
+    'ga', 'ge', 'gu', 'ka', 'ke', 'ku', 'ha', 'he', 'hu', 'gua', 'kua', 'hua', 'guo', 'kuo', 'huo',
+    'ji', 'qi', 'xi', 'jia', 'qia', 'xia', 'ju', 'qu', 'xu',
+    'za', 'ze', 'zu', 'zuo', 'ca', 'ce', 'cu', 'cuo', 'sa', 'se', 'su', 'suo', 'zi', 'ci', 'si'
+]
 
 tone_table = {
     'a': 'āáǎà',
@@ -51,13 +58,27 @@ def convert(name):
     return re.sub(r'[aeiouü]+', lambda m: repl(m, int(name[-1])), name[:-1])
 
 
+def filter_file(files):
+    if not FILTER:
+        return files
+
+    filtered = []
+    for file in files:
+        if result := re.match(r'(\w+)\d.*', file):
+            if result[1] in FILTER:
+                filtered.append(file)
+    return filtered
+
+
 def main():
     if not os.path.exists('log'):
         os.mkdir('log')
 
     mixer.init()
 
-    files = random.sample(os.listdir(FOLDER), NUM)
+    play('ready.mp3')
+
+    files = random.sample(filter_file(os.listdir(FOLDER)), NUM)
 
     with open(os.path.join('log', datetime.now().strftime('%Y-%m-%d %H-%M-%S') + '.txt'), 'w') as log:
         for i, file in enumerate(files):

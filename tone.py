@@ -6,7 +6,7 @@ FOLDER = 'audio'
 
 def main():
     double_vowels = {}
-    
+
     for file in os.listdir(FOLDER):
         if '1' in file:
             name = file[:-5]

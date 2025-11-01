@@ -7,16 +7,40 @@ from datetime import datetime
 import pyttsx3
 from pygame import mixer
 
-INTERVAL = 4
+INTERVAL = 6
 NUM = 20
 LOOP = 2
 FOLDER = 'audio'
 FILTER = [  # 'a', 'e', 'i', 'o', 'u', 'ü',
-    'ba', 'bo', 'bi', 'bu', 'pa', 'po', 'pi', 'pu', 'ma', 'mo', 'mi', 'mu', 'fa', 'fo', 'fu',
-    'da', 'de', 'di', 'du', 'ta', 'te', 'ti', 'tu', 'na', 'ne', 'ni', 'nu', 'nü', 'la', 'le', 'li', 'lu', 'lü',
-    'ga', 'ge', 'gu', 'ka', 'ke', 'ku', 'ha', 'he', 'hu', 'gua', 'kua', 'hua', 'guo', 'kuo', 'huo',
-    'ji', 'qi', 'xi', 'jia', 'qia', 'xia', 'ju', 'qu', 'xu',
-    'za', 'ze', 'zu', 'zuo', 'ca', 'ce', 'cu', 'cuo', 'sa', 'se', 'su', 'suo', 'zi', 'ci', 'si'
+    # 'ba', 'bo', 'bi', 'bu',
+    # 'pa', 'po', 'pi', 'pu',
+    # 'ma', 'mo', 'mi', 'mu',
+    # 'fa', 'fo', 'fu',
+    # 'da', 'de', 'di', 'du',
+    # 'ta', 'te', 'ti', 'tu',
+    # 'na', 'ne', 'ni', 'nu', 'nü',
+    # 'la', 'le', 'li', 'lu', 'lü',
+    # 'ga', 'ge', 'gu', 'gua', 'guo',
+    # 'ka', 'ke', 'ku', 'kua', 'kuo',
+    # 'ha', 'he', 'hu', 'hua', 'huo',
+    # 'ji', 'jia', 'ju',
+    # 'qi', 'qia', 'qu',
+    # 'xi', 'xia', 'xu',
+    # 'zi', 'za', 'ze', 'zu', 'zuo',
+    # 'ci', 'ca', 'ce', 'cu', 'cuo',
+    # 'si', 'sa', 'se', 'su', 'suo',
+    # 'zhi', 'zha', 'zhe', 'zhu', 'zhua', 'zhuo',
+    # 'chi', 'cha', 'che', 'chu', 'chuo',
+    # 'shi', 'sha', 'she', 'shu', 'shua', 'shuo',
+    # 'ri', 're', 'ru', 'ruo',
+    # 'yi', 'ya', 'yu',
+    # 'wu', 'wa', 'wo',
+    # 'gai', 'guai', 'tai', 'kai', 'cai', 'huai', 'kuai',
+    'lei', 'bei', 'pei', 'fei', 'gei', 'wei', 'hei',
+    'tui', 'hui', 'dui', 'chui', 'zui', 'sui', 'rui',
+    # 'niao', 'shao', 'yao', 'rao', 'tiao', 'zao',
+    # 'tou', 'lou', 'you', 'zou', 'shou', 'kou', 'rou',
+    'qiu', 'diu', 'liu', 'niu', 'xiu', 'jiu'
 ]
 
 tone_table = {
@@ -76,15 +100,15 @@ def main():
 
     files = random.sample(filter_file(os.listdir(FOLDER)), NUM)
 
-    mixer.init()
-    play('ready.mp3')
-    time.sleep(2)
-
     with open(os.path.join('log', datetime.now().strftime('%Y-%m-%d %H-%M-%S') + '.txt'), 'w') as log:
         for i, file in enumerate(files):
             text = f'{i + 1}: {convert(file[:file.index('.')])}'
             print(text)
             log.write(text + '\n')
+
+    mixer.init()
+    play('ready.mp3')
+    time.sleep(2)
 
     for n in range(LOOP):
         for i in range(NUM):
